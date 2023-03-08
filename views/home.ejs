@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Home Page</title>
+  </head>
+  <body>
+    <%- include('./partials/nav') %> <% if (locals.user) { %>
+    <div class="container mt-3">
+      <form action="/" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="file" class="form-label">Upload File</label>
+          <input
+            type="file"
+            class="form-control"
+            id="file"
+            name="file"
+            aria-describedby="file"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="container mt-4">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Modified</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% dropBoxs.forEach(dropBox => { %> <% if (locals.user._id == dropBox.
+          createdBy ) { %>
+          <tr>
+            <td>
+              <img
+                src="<%= dropBox.file %>"
+                class="card-img-top"
+                width="40"
+                height="60"
+              />
+            </td>
+            <td><%=dropBox.file.substr(20,dropBox.file.length) %></td>
+            <td><%= dropBox.updatedAt %></td>
+
+            <td>
+              <a class="btn btn-success delete" href="/<%= dropBox.id%>"
+                >Delete</a
+              >
+            </td>
+            <% } %>
+          </tr>
+          <%})%>
+        </tbody>
+      </table>
+    </div>
+    <% } else { %>
+    <h1><center>Please login or Create Account</center></h1>
+    <% } %> <%- include('./partials/scripts') %>
+  </body>
+</html>
